@@ -3,25 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>일정</title>
+
+    <style>
+        body{
+            width: 600px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        .s_id{
+            width: 50px;
+        }
+        .s_title{
+            width: 450px;
+        }
+        .s_date{
+            width: 100px;
+        }
+
+        #s_title_list{
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
-<table border="1">
+<table>
     <tr>
-        <th>ID</th>
-        <th>제목</th>
-        <th>날짜</th>
+        <th class="s_id">번호</th>
+        <th class="s_title">제목</th>
+        <th class="s_date">날짜</th>
     </tr>
     <tbody>
     <tr th:each="schedule : ${schedules}">
-        <td th:text="${schedule.id}"></td>
-        <td>
+        <td class="s_id" th:text="${schedule.id}"></td>
+        <td class="s_title" id="s_title_list">
             <a th:href="@{/schedule/{id}(id=${schedule.id})}" th:text="${schedule.title}"></a>
         </td>
-        <td th:text="${schedule.date}"></td>
+        <td class="s_date" th:text="${schedule.date}"></td>
     </tr>
     </tbody>
 </table>
-
+<br><br>
 
 <a href="/schedule/add">
     <button type="button">새로 등록</button></a>
