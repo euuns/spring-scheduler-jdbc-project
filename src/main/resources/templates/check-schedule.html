@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p>작성자: <span th:text="${schedule.user}"/> </p><br>
+
+<div><p><strong>제목</strong></p>
+<p th:text="${schedule.title}"/> </div>
+
+<div><p><strong>내용</strong></p>
+<p th:text="${schedule.content}"/> </div><br>
+
+<p th:text="${schedule.date}"/>
+</body>
+</html>
