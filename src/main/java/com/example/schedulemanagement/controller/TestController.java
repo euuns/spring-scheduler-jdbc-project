@@ -15,6 +15,7 @@ public class TestController {
 
 
     // 입력한 내용 출력
+
     @GetMapping("/get")
     public String getSchedule(Model model) {
         model.addAttribute("schedule", schedule);
