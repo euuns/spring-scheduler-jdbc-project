@@ -3,19 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>일정 - 확인</title>
+
+    <style>
+        body{
+            width: 600px;
+            margin: 0 auto;
+        }
+        hr{
+            border-width: 1px 0 0 0;
+            border-style: dotted;
+            border-color: #bbb;
+        }
+    </style>
 </head>
 <body>
 
-<p th:text="${schedule.id}"/>
-<p>작성자: <span th:text="${schedule.user}"/> </p><br>
-
-<div><p><strong>제목</strong></p>
-<p th:text="${schedule.title}"/> </div>
-
-<div><p><strong>내용</strong></p>
-<p th:text="${schedule.content}"/> </div><br>
-
-<p th:text="${schedule.date}"/>
+<p><strong>작성자</strong>　<span th:text="${schedule.user}"/> </p>
+<hr>
+<p><strong>제목</strong>　<span th:text="${schedule.title}"/></p>
+<br>
+<p th:text="${schedule.content}"/> </div>
+<hr>
+<p style="font-size: small" th:text="${schedule.date}"/>
 
 <br><br>
 <a href="/schedule">

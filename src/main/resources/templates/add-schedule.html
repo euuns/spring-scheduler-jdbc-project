@@ -3,26 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <title>일정 - 등록</title>
+
+    <style>
+        body {
+            width: 600px;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .text_div {
+            width: 20%;
+        }
+
+        .label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .input_div {
+            width: 70%;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        button{
+            margin-left: auto;
+        }
+
+    </style>
+
 </head>
 <body>
 
-<h3>일정 등록</h3>
+<h3>일정 등록</h3><br>
 
-  <form action="/schedule/add" th:object="${schedule}" method="post">
-      <label th:for="title">작성자 : </label>
-      <input type="text" th:field="*{user}"/>
-      <br>
-      <label th:for="title">비밀번호 : </label>
-      <input type="text" th:field="*{password}"/>
-      <br><br>
-      <label th:for="title">제목 : </label>
-      <input type="text" th:field="*{title}"/>
-      <br>
-      <label th:for="content">내용 : </label>
-      <textarea type="text" th:field="*{content}"/>
-      <br><br><br>
-    <input type="submit" value="확인">
-  </form>
+<form class="container" action="/schedule/add" th:object="${schedule}" method="post">
+    <div class="text_div">
+        <label th:for="user" class="label">작성자</label>
+        <label th:for="password" class="label">비밀번호</label>
+        <label th:for="title" class="label">제목</label>
+        <label th:for="content" class="label">내용</label>
+    </div>
+
+    <div class="input_div">
+        <input type="text" th:field="*{user}" placeholder="작성자를 입력하세요"/>
+        <input type="text" th:field="*{password}" placeholder="비밀번호를 입력하세요"/>
+        <input type="text" th:field="*{title}" placeholder="제목을 입력하세요"/>
+        <textarea th:field="*{content}" placeholder="내용을 입력하세요"></textarea>
+
+        <button type="submit">확인</button>
+    </div>
+
+</form>
+
 
 </body>
 </html>
