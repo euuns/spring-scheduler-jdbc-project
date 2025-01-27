@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h3>일정 등록</h3>
+
+  <form action="/test/input" th:object="${schedule}" method="post">
+      <label th:for="title">제목 : </label>
+      <input type="text" th:field="*{title}"/>
+
+      <label th:for="content">내용 : </label>
+      <input type="text" th:field="*{content}"/>
+
+    <input type="submit" value="확인">
+  </form>
+
+</body>
+</html>
