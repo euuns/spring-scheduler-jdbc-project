@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>일정 - 등록</title>
 </head>
 <body>
 
 <h3>일정 등록</h3>
 
-  <form action="/schedule" th:object="${schedule}" method="post">
+  <form action="/schedule/add" th:object="${schedule}" method="post">
       <label th:for="title">작성자 : </label>
       <input type="text" th:field="*{user}"/>
       <br>

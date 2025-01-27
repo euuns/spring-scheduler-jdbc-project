@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>일정</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>제목</th>
+        <th>날짜</th>
+    </tr>
+    <tbody>
+    <tr th:each="schedule : ${schedules}">
+        <td th:text="${schedule.id}"></td>
+        <td>
+            <a th:href="@{/schedule/{id}(id=${schedule.id})}" th:text="${schedule.title}"></a>
+        </td>
+        <td th:text="${schedule.date}"></td>
+    </tr>
+    </tbody>
+</table>
+
+
+<a href="/schedule/add">
+    <button type="button">새로 등록</button></a>
+
+</body>
+</html>
