@@ -1,7 +1,6 @@
 package com.example.schedulemanagement.dto;
 
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -11,4 +10,5 @@ public class ScheduleRequestDto {
     private String user;
     private String content;
     private String password;
+
 }

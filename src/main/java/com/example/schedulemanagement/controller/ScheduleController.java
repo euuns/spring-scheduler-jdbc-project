@@ -1,48 +1,54 @@
 package com.example.schedulemanagement.controller;
 
+import com.example.schedulemanagement.dto.ScheduleRequestDto;
+import com.example.schedulemanagement.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.entity.Schedule;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
-@Controller
+@RestController
 @RequestMapping("/schedule")
 @RequiredArgsConstructor
 public class ScheduleController {
 
-    private final List<Schedule> scheduleList = new ArrayList<>();
-    private Schedule schedule = new Schedule();
+    private final Map<Long,Schedule> scheduleList = new HashMap();
 
 
     // 정보 입력
-    @GetMapping("/add")
-    public String getInputPage(Model model) {
-        model.addAttribute("schedule", schedule);
-        return "add-schedule";
-    }
     @PostMapping("/add")
-    public String addSchedule(@ModelAttribute Schedule schedule) {
-        scheduleList.add(schedule);
-        return "redirect:/schedule";
+    public ScheduleResponseDto addSchedule(@RequestBody ScheduleRequestDto dto){
+        Long id = scheduleList.isEmpty() ? 1 : Collections.max(scheduleList.keySet())+1;
+        LocalDate date = LocalDate.now();
+
+        Schedule schedule = new Schedule(id, dto.getTitle(), dto.getUser(), dto.getContent(), dto.getPassword(), date);
+        scheduleList.put(id, schedule);
+
+        return new ScheduleResponseDto(schedule);
     }
 
 
     // 일정 목록 출력
     @GetMapping()
-    public String getScheduleList(Model model) {
-        model.addAttribute("schedules", scheduleList);
-        return "schedule-list";
+    public List<ScheduleResponseDto> getScheduleList() {
+        List<ScheduleResponseDto> responseList = new ArrayList<>();
+
+        for (Schedule schedule:scheduleList.values()) {
+            ScheduleResponseDto responseDto = new ScheduleResponseDto(schedule);
+            responseList.add(responseDto);
+        }
+
+        return responseList;
     }
+
+
     // 선택한 일정 출력
     @GetMapping("/{id}")
-    public String getSchedule(Model model, @PathVariable Long id) {
-        schedule = scheduleList.stream().filter(s -> s.getId() == id).findFirst().orElse(null);
-        model.addAttribute("schedule", schedule);
-        return "check-schedule";
+    public ScheduleResponseDto getSchedule(@PathVariable Long id) {
+        Schedule schedule = scheduleList.get(id);
+        return new ScheduleResponseDto(schedule);
     }
 
 }
