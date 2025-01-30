@@ -1,6 +1,6 @@
 package com.example.schedulemanagement.controller;
 
-import com.example.schedulemanagement.Entity.Schedule;
+import com.example.schedulemanagement.entity.Schedule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

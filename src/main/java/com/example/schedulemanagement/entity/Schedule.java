@@ -1,8 +1,7 @@
-package com.example.schedulemanagement.Entity;
+package com.example.schedulemanagement.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
