@@ -1,29 +1,31 @@
 package com.example.schedulemanagement.entity;
 
 import com.example.schedulemanagement.dto.ScheduleRequestDto;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
+@Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Schedule {
+    @Id
     @Setter
-    private long id;
+    private Long id;
 
     private String title;
-    private String user;
     private String content;
-    private String password;
 
     @Setter
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users user;
 
 
 
