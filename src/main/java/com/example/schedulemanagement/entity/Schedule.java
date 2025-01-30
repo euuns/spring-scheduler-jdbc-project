@@ -36,4 +36,11 @@ public class Schedule {
         this.date = new Schedule().getDate();
     }
 
+    public boolean isEqualTo(ScheduleRequestDto requestDto){
+        if(this.password.equals(requestDto.getPassword())){
+            return true;
+        }
+        else return false;
+    }
+
 }

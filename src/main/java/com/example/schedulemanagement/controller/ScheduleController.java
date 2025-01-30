@@ -88,7 +88,7 @@ public class ScheduleController {
     public ScheduleResponseDto updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto){
         Schedule schedule = scheduleList.get(id);
 
-        if(requestDto.getPassword().equals(schedule.getPassword())){
+        if(schedule.isEqualTo(requestDto)){
             schedule.update(requestDto);
         }
 
@@ -101,7 +101,7 @@ public class ScheduleController {
     @DeleteMapping("/{id}")
     public void deleteSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto){
         Schedule schedule = scheduleList.get(id);
-        if(requestDto.getPassword().equals(schedule.getPassword())){
+        if(schedule.isEqualTo(requestDto)){
             scheduleList.remove(id);
         }
     }
