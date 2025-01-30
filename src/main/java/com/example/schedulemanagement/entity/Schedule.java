@@ -30,4 +30,8 @@ public class Schedule {
         this.password = requestDto.getPassword();
     }
 
+    public static LocalDate getDate(){
+        return LocalDate.now();
+    }
+
 }

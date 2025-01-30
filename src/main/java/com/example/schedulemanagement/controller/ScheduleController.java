@@ -21,7 +21,7 @@ public class ScheduleController {
     @PostMapping("/add")
     public ScheduleResponseDto addSchedule(@RequestBody ScheduleRequestDto dto){
         Long id = scheduleList.isEmpty() ? 1 : Collections.max(scheduleList.keySet())+1;
-        LocalDate date = LocalDate.now();
+        LocalDate date = Schedule.getDate();
 
         Schedule schedule = new Schedule(id, dto.getTitle(), dto.getUser(), dto.getContent(), dto.getPassword(), date);
         scheduleList.put(id, schedule);
