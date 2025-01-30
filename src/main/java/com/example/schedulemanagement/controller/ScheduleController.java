@@ -87,16 +87,23 @@ public class ScheduleController {
     @PutMapping("/{id}")
     public ScheduleResponseDto updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto){
         Schedule schedule = scheduleList.get(id);
-        schedule.update(requestDto);
+
+        if(requestDto.getPassword().equals(schedule.getPassword())){
+            schedule.update(requestDto);
+        }
 
         return new ScheduleResponseDto(schedule);
     }
 
 
+
     // 일정 삭제
     @DeleteMapping("/{id}")
-    public void deleteSchedule(@PathVariable Long id){
-        scheduleList.remove(id);
+    public void deleteSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto){
+        Schedule schedule = scheduleList.get(id);
+        if(requestDto.getPassword().equals(schedule.getPassword())){
+            scheduleList.remove(id);
+        }
     }
 
 }
