@@ -23,14 +23,8 @@ public class Schedule {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
-    public void update(ScheduleRequestDto requestDto){
-        this.user = requestDto.getUser();
-        this.title = requestDto.getTitle();
-        this.content = requestDto.getContent();
-        this.password = requestDto.getPassword();
-    }
 
-    public static LocalDate getDate(){
+    public LocalDate getDate(){
         return LocalDate.now();
     }
 

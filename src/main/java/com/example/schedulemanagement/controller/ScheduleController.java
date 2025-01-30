@@ -21,7 +21,7 @@ public class ScheduleController {
     @PostMapping("/add")
     public ScheduleResponseDto addSchedule(@RequestBody ScheduleRequestDto dto){
         Long id = scheduleList.isEmpty() ? 1 : Collections.max(scheduleList.keySet())+1;
-        LocalDate date = Schedule.getDate();
+        LocalDate date = new Schedule().getDate();
 
         Schedule schedule = new Schedule(id, dto.getTitle(), dto.getUser(), dto.getContent(), dto.getPassword(), date);
         scheduleList.put(id, schedule);
@@ -38,6 +38,37 @@ public class ScheduleController {
         for (Schedule schedule:scheduleList.values()) {
             ScheduleResponseDto responseDto = new ScheduleResponseDto(schedule);
             responseList.add(responseDto);
+        }
+
+        return responseList;
+    }
+
+
+    // 작성자 이름으로 리스트 출력
+    @GetMapping("/user/{user}")
+    public List<ScheduleResponseDto> getUserNameList(@PathVariable String user) {
+        List<ScheduleResponseDto> responseList = new ArrayList<>();
+
+        for (Schedule schedule:scheduleList.values()) {
+            if (schedule.getUser().equals(user)){
+                responseList.add(new ScheduleResponseDto(schedule));
+            }
+        }
+
+        return responseList;
+    }
+
+
+
+    // 특정 날짜 조회
+    @GetMapping("/date/{date}")
+    public List<ScheduleResponseDto> getDate(@PathVariable LocalDate date) {
+        List<ScheduleResponseDto> responseList = new ArrayList<>();
+
+        for (Schedule schedule:scheduleList.values()) {
+            if (schedule.getDate().equals(date)){
+                responseList.add(new ScheduleResponseDto(schedule));
+            }
         }
 
         return responseList;
