@@ -82,4 +82,14 @@ public class ScheduleController {
         return new ScheduleResponseDto(schedule);
     }
 
+
+    // 일정 수정
+    @PutMapping("/{id}")
+    public ScheduleResponseDto updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto){
+        Schedule schedule = scheduleList.get(id);
+        schedule.update(requestDto);
+
+        return new ScheduleResponseDto(schedule);
+    }
+
 }

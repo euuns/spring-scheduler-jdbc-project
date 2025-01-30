@@ -28,4 +28,12 @@ public class Schedule {
         return LocalDate.now();
     }
 
+    public void update(ScheduleRequestDto requestDto){
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.user = requestDto.getUser();
+        this.password = requestDto.getPassword();
+        this.date = new Schedule().getDate();
+    }
+
 }
