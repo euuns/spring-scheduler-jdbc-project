@@ -1,26 +1,21 @@
 package com.example.schedulemanagement.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Users {
-    @Id
-    @Setter
-    private Long id;
 
+    private Long id;
+    private String password;
     private String name;
     private String email;
-    private String password;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate modifyDate;
 }
