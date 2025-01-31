@@ -20,6 +20,12 @@ public class Users {
     private LocalDate modifyDate;
 
 
+    public Users(Long id, String name, String password){
+        this.id = id;
+        this.name = name;
+        this.password = password;
+    }
+
     public boolean isEqualTo(String password){
         if(this.password.equals(password)){
             return true;

@@ -15,11 +15,14 @@ public class Schedule {
     private Long userId;
     private String title;
     private String content;
+
+    @Setter
     private LocalDate date;
 
 
 
-    public Schedule(String title, String content) {
+    public Schedule(Long userId, String title, String content) {
+        this.userId = userId;
         this.title = title;
         this.content = content;
     }
