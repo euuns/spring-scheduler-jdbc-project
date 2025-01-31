@@ -10,36 +10,25 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Schedule {
 
-
+    @Setter
     private Long id;
-    private Long user_id;
+    private Long userId;
     private String title;
     private String content;
     private LocalDate date;
 
 
 
-    public Schedule(String title, String user, String content, String password) {
+    public Schedule(String title, String content) {
         this.title = title;
-        this.user = user;
         this.content = content;
-        this.password = password;
     }
 
 
     public void update(ScheduleRequestDto requestDto){
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
-        this.user = requestDto.getUser();
-        this.password = requestDto.getPassword();
         this.date = LocalDate.now();
-    }
-
-    public boolean isEqualTo(String password){
-        if(this.password.equals(password)){
-            return true;
-        }
-        else return false;
     }
 
 }

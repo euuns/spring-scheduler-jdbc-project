@@ -18,4 +18,12 @@ public class Users {
 
     private LocalDate createDate;
     private LocalDate modifyDate;
+
+
+    public boolean isEqualTo(String password){
+        if(this.password.equals(password)){
+            return true;
+        }
+        else return false;
+    }
 }
