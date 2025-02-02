@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @RestController
@@ -55,22 +56,21 @@ public class ScheduleController {
     }
 
 
-//    // 작성자 이름으로 리스트 출력
-//    @GetMapping("/user/{user}")
-//    public ResponseEntity<List<ManagementResponseDto>> getUserNameList(@PathVariable String user) {
-//        scheduleService.getUserNameList(user);
-//        return new ResponseEntity<>(, HttpStatus.OK);
-//    }
-//
+    // 작성자 이름으로 리스트 출력
+    @GetMapping("/user/{user}")
+    public ResponseEntity<List<ManagementResponseDto>> getUserNameList(@PathVariable String user) {
+        return new ResponseEntity<>(scheduleService.getUserNameList(user), HttpStatus.OK);
+    }
 
-//
-//    // 특정 날짜 조회
-//    @GetMapping("/date/{date}")
-//    public ResponseEntity<List<ManagementResponseDto>> getDate(@PathVariable LocalDate date) {
-//        return new ResponseEntity<>(service.getDate(date), HttpStatus.OK);
-//    }
-//
-//
+
+
+    // 특정 날짜 조회
+    @GetMapping("/date/{date}")
+    public ResponseEntity<List<ManagementResponseDto>> getDate(@PathVariable LocalDate date) {
+        return new ResponseEntity<>(scheduleService.getDateList(date), HttpStatus.OK);
+    }
+
+
 //    // 선택한 일정 출력
 //    @GetMapping("/{id}")
 //    public ResponseEntity<ManagementResponseDto> getSchedule(@PathVariable Long id) {

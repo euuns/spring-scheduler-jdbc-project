@@ -12,8 +12,10 @@ public interface ScheduleService {
 
     List<ManagementResponseDto> getScheduleList();
 
-//    List<ManagementResponseDto> getUserNameList(String name);
-//    List<ManagementResponseDto> getDate(LocalDate date);
+    List<ManagementResponseDto> getUserNameList(String name);
+
+    List<ManagementResponseDto> getDateList(LocalDate date);
+
 //    ManagementResponseDto getSchedule(Long id);
 //
 //    ManagementResponseDto updateSchedule(Long id, ManagementRequestDto dto);

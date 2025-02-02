@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 
 @Repository
@@ -62,23 +63,15 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
 
 
-//    @Override
-//    public List<ManagementResponseDto> getUserNameList(Long userId) {
-//        return template.query("SELECT * FROM schedule WHERE user_id = ?", scheduleListMapper(), userId);
-//    }
-//
-//    @Override
-//    public List<ManagementResponseDto> getDate(LocalDate date) {
-//        List<ScheduleResponseDto> responseList = new ArrayList<>();
-//
-//        for (Schedule schedule:scheduleList.values()) {
-//            if (schedule.getDate().equals(date)){
-//                responseList.add(new ScheduleResponseDto(schedule));
-//            }
-//        }
-//
-//        return responseList;
-//    }
+    @Override
+    public List<ManagementResponseDto> getUserNameList(String userName) {
+        return template.query("SELECT s.id, u.name, s.title, s.content, s.date FROM schedule s JOIN users u ON s.user_id = u.id WHERE u.name = ?", scheduleListMapper(), userName);
+    }
+
+    @Override
+    public List<ManagementResponseDto> getDateList(LocalDate date) {
+        return template.query("SELECT s.id, u.name, s.title, s.content, s.date FROM schedule s JOIN users u ON s.user_id = u.id WHERE s.date = ?", scheduleListMapper(), date);
+    }
 //
 //
 //    @Override

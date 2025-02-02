@@ -41,16 +41,16 @@ public class ScheduleServiceImpl implements ScheduleService{
         return repository.getScheduleList();
     }
 
-//    @Override
-//    public List<ManagementResponseDto> getUserNameList(String name) {
-//        return repository.getUserNameList(name);
-//    }
-//
-//    @Override
-//    public List<ManagementResponseDto> getDate(LocalDate date) {
-//        return repository.getDate(date);
-//    }
-//
+    @Override
+    public List<ManagementResponseDto> getUserNameList(String name) {
+        return repository.getUserNameList(name);
+    }
+
+    @Override
+    public List<ManagementResponseDto> getDateList(LocalDate date) {
+        return repository.getDateList(date);
+    }
+
 //    @Override
 //    public ManagementResponseDto getSchedule(Long id) {
 //        Schedule schedule = repository.getSchedule(id);
