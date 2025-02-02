@@ -27,6 +27,12 @@ public class UsersServiceImpl implements UsersService{
 
     @Override
     public boolean isEqualTo(Long id, String password){
+
+        // 입력한 요청 비밀번호가 없을 경우 예외 처리
+        if(password == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
         UsersResponsDto user = usersRepository.getUserPassword(id);
 
         // 비밀번호가 일치하지 않을 경우 예외 처리

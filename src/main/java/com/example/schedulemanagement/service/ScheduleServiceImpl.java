@@ -26,6 +26,11 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     public ManagementResponseDto addSchedule(ManagementRequestDto requestDto,Long userId) {
 
+        // title, content, password가 비어있으면 예외 처리
+        if(requestDto.getTitle() == null || requestDto.getContent() == null || requestDto.getPassword() == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
         // Schedule 필드에 값을 저장 -> id만 null
         Schedule schedule = new Schedule(userId, requestDto.getTitle(), requestDto.getContent());
         schedule.setDate(LocalDate.now());
