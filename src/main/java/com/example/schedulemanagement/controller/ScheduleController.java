@@ -49,11 +49,17 @@ public class ScheduleController {
     // 일정 목록 출력
     @GetMapping()
     public ResponseEntity<List<ManagementResponseDto>> getScheduleList() {
+        // 저장된 일정을 List로 가져온다.
         List<ScheduleResponseDto> scheduleList = scheduleService.getScheduleList();
 
+        // 일정List의 userId에 맞춰서 users 테이블에서 id에 맞는 유저 정보를 가져온다.
         List<ManagementResponseDto> result = scheduleList.stream().map(s -> {
             UsersResponsDto u = usersService.getUsers(s.getUserId());
+
+            // 최종 응답을 위해 Schedule응답과 Users응답을 통합DTO에 넣어서 반환한다.
             return new ManagementResponseDto(s, u);
+
+            // 반환된 통합DTO를 List로 지정
         }).toList();
 
         return new ResponseEntity<>(result, HttpStatus.OK);
