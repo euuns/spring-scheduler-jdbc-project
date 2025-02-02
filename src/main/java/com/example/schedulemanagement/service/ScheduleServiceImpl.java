@@ -91,4 +91,5 @@ public class ScheduleServiceImpl implements ScheduleService{
         ScheduleResponseDto userId = repository.findUserId(id);
         return userId.getUserId();
     }
+
 }

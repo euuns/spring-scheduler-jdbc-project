@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.regex.Pattern;
+
 
 @Service
 public class UsersServiceImpl implements UsersService{
@@ -32,5 +34,18 @@ public class UsersServiceImpl implements UsersService{
             return true;
         }
         else throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Password does not match.");
+    }
+
+
+    // 이메일 형식 확인
+    private boolean emailValidator(String email){
+        // 이메일 정규 표현식
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
+        // Pattern.matches를 이용해 확인하고, 형식과 맞지 않으면 예외 처리
+        if(Pattern.matches(regex, email)){
+            return true;
+        }
+        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"The email format is incorrect.");
     }
 }
