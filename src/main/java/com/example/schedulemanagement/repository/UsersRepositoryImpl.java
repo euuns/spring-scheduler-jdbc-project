@@ -1,15 +1,16 @@
 package com.example.schedulemanagement.repository;
 
 import com.example.schedulemanagement.dto.UsersResponsDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 
 @Repository
@@ -24,20 +25,20 @@ public class UsersRepositoryImpl implements UsersRepository{
 
     // id에 맞는 유저 정보를 반환
     @Override
-    public Optional<UsersResponsDto> getUsers(Long id){
+    public UsersResponsDto getUsers(Long id){
         // id에 맞는 값을 가져오는 쿼리 실행 -> where id = ?
-        List<UsersResponsDto> query = jdbcTemplate.query("select * from users where id = ?", rowMapper(), id);
+        List<UsersResponsDto> query = jdbcTemplate.query("select id, name from users where id = ?", rowMapper(), id);
 
-        // 반환된 List는 값이 없으면 빈 배열로 반환
-        // null을 안전하게 다루기 위한 Optional형태 반환
-        return query.stream().findAny();
+        return query.stream().findAny().orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Does not exists user_id = "+id));
     }
 
 
     @Override
-    public Optional<UsersResponsDto> getUserPassword(Long id){
-        List<UsersResponsDto> query = jdbcTemplate.query("select * from users where id = ?", rowMapperToPassword(), id);
-        return query.stream().findAny();
+    public UsersResponsDto getUserPassword(Long id){
+        List<UsersResponsDto> query = jdbcTemplate.query("select password from users where id = ?", rowMapperToPassword(), id);
+
+        // 결과를 찾으면 반환. 없으면 예외 처리.
+        return query.stream().findAny().orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Does not exists user_id = "+id));
     }
 
 

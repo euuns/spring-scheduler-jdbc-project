@@ -2,7 +2,6 @@ package com.example.schedulemanagement.controller;
 
 import com.example.schedulemanagement.dto.ManagementRequestDto;
 import com.example.schedulemanagement.dto.ManagementResponseDto;
-import com.example.schedulemanagement.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.dto.UsersResponsDto;
 import com.example.schedulemanagement.service.ScheduleService;
 import com.example.schedulemanagement.service.UsersService;
@@ -81,14 +80,14 @@ public class ScheduleController {
     // 일정 수정
     @PutMapping("/{id}")
     public ResponseEntity<ManagementResponseDto> updateSchedule(@PathVariable Long id, @RequestBody ManagementRequestDto dto){
+        // 글 id를 통해 userId를 반환
         Long userId = scheduleService.findUserId(id);
 
-        if(usersService.isEqualTo(userId, dto.getPassword())){
-            return new ResponseEntity<>(scheduleService.updateSchedule(id, dto), HttpStatus.OK);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        // userID를 이용해 password가 맞는지 확인
+        usersService.isEqualTo(userId, dto.getPassword());
+
+        // 위에서 예외가 나오지 않으면 일정을 수정
+        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto), HttpStatus.OK);
     }
 
 
@@ -96,14 +95,10 @@ public class ScheduleController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @RequestBody ManagementRequestDto dto){
         Long userId = scheduleService.findUserId(id);
+        usersService.isEqualTo(userId, dto.getPassword());
 
-        if(usersService.isEqualTo(userId, dto.getPassword())){
-            scheduleService.deleteSchedule(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        scheduleService.deleteSchedule(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

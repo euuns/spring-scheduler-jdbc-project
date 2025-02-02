@@ -6,8 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
-
 
 @Service
 public class UsersServiceImpl implements UsersService{
@@ -22,25 +20,17 @@ public class UsersServiceImpl implements UsersService{
 
     @Override
     public UsersResponsDto getUsers(Long id) {
-        Optional<UsersResponsDto> users = usersRepository.getUsers(id);
-
-        // users가 비어있으면 예외 처리
-        if(users.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist user id = " + id);
-        }
-        return users.get();
+        return usersRepository.getUsers(id);
     }
 
     @Override
     public boolean isEqualTo(Long id, String password){
-        Optional<UsersResponsDto> user = usersRepository.getUserPassword(id);
-        if(user.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
+        UsersResponsDto user = usersRepository.getUserPassword(id);
 
-        if(user.get().getPassword().equals(password)){
+        // 비밀번호가 일치하지 않을 경우 예외 처리
+        if(user.getPassword().equals(password)){
             return true;
         }
-        else return false;
+        else throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Password does not match.");
     }
 }

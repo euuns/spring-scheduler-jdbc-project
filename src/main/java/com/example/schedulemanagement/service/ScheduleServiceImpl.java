@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.util.List;
 
+
 @Service
 public class ScheduleServiceImpl implements ScheduleService{
 
@@ -55,28 +56,39 @@ public class ScheduleServiceImpl implements ScheduleService{
     // 선택한 일정 단건 조회
     @Override
     public ManagementResponseDto getSchedule(Long id) {
-        List<ManagementResponseDto> schedule = repository.getSchedule(id);
-        return schedule.get(0);  //get(0) 추후 수정 예정
+        return repository.getSchedule(id);
     }
 
+
+    // 선택한 일정 수정
     @Override
     public ManagementResponseDto updateSchedule(Long id, ManagementRequestDto dto) {
-        List<ManagementResponseDto> schedule = repository.getSchedule(id);
+
+        // 수정된 제목이나 내용이 없을 경우 예외 처리
+        if(dto.getTitle() == null || dto.getContent() == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
         LocalDate updateDate = LocalDate.now();
         repository.updateSchedule(id, dto.getTitle(), dto.getContent(), updateDate);
 
-        return schedule.get(0);
+        // 수정한 일정 반환
+        return repository.getSchedule(id);
     }
 
+
+    // 선택한 일정 삭제
     @Override
     public void deleteSchedule(Long id) {
         repository.deleteSchedule(id);
     }
 
 
+    // 글 id를 이용해 글을 작성한 유저 정보를 받아온다.
+    // userId를 가져와 그 값을 반환
     @Override
     public Long findUserId(Long id){
-        List<ScheduleResponseDto> userId = repository.findUserId(id);
-        return userId.get(0).getUserId();
+        ScheduleResponseDto userId = repository.findUserId(id);
+        return userId.getUserId();
     }
 }

@@ -3,11 +3,13 @@ package com.example.schedulemanagement.repository;
 import com.example.schedulemanagement.dto.ManagementResponseDto;
 import com.example.schedulemanagement.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.entity.Schedule;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -62,7 +64,6 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     }
 
 
-
     @Override
     public List<ManagementResponseDto> getUserNameList(String userName) {
         return template.query("SELECT s.id, u.name, s.title, s.content, s.date FROM schedule s JOIN users u ON s.user_id = u.id WHERE u.name = ?", scheduleListMapper(), userName);
@@ -74,30 +75,39 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     }
 
 
+
+    // 입력한 id의 글이 존재하는지 확인하고 그 내용을 가져옴
     @Override
-    public List<ManagementResponseDto> getSchedule(Long id) {
-        return template.query("SELECT s.id, u.name, s.title, s.content, s.date FROM schedule s JOIN users u ON s.user_id = u.id WHERE s.id = ?", scheduleListMapper(), id);
+    public ManagementResponseDto getSchedule(Long id){
+        List<ManagementResponseDto> result = template.query("SELECT s.id, u.name, s.title, s.content, s.date FROM schedule s JOIN users u ON s.user_id = u.id WHERE s.id = ?", scheduleListMapper(), id);
+        // result가 있으면 ManagementResponseDto로 반환. 없으면 에외 처리 -> orElseThrow()
+        return result.stream().findAny().orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Does not exists id = "+id));
     }
 
 
+
+    // 글 id를 이용해서 user_id 반환
     @Override
-    public List<ScheduleResponseDto> findUserId(Long id){
-        return template.query("SELECT user_id FROM schedule WHERE id = ?", userIdMapper(), id);
+    public ScheduleResponseDto findUserId(Long id){
+        List<ScheduleResponseDto> result = template.query("SELECT user_id FROM schedule WHERE id = ?", userIdMapper(), id);
+        return result.stream().findAny().orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Does not exists id = "+id));
     }
 
 
 
-    // 일정 수정 추가
-
+    // 글 수정
     @Override
     public int updateSchedule(Long id, String title, String contnet, LocalDate date){
         return template.update("UPDATE schedule SET title = ?, content = ?, date = ? WHERE id = ?", title, contnet, date, id);
     }
 
+
+    // 삭제
     @Override
     public int deleteSchedule(Long id){
         return template.update("DELETE FROM schedule WHERE id =?", id);
     }
+
 
 
 
