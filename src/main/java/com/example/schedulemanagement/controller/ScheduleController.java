@@ -81,21 +81,29 @@ public class ScheduleController {
     // 일정 수정
     @PutMapping("/{id}")
     public ResponseEntity<ManagementResponseDto> updateSchedule(@PathVariable Long id, @RequestBody ManagementRequestDto dto){
-        if(usersService.isEqualTo(id, dto.getPassword())){
+        Long userId = scheduleService.findUserId(id);
+
+        if(usersService.isEqualTo(userId, dto.getPassword())){
             return new ResponseEntity<>(scheduleService.updateSchedule(id, dto), HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
 
+    // 일정 삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @RequestBody ManagementRequestDto dto){
+        Long userId = scheduleService.findUserId(id);
 
-//    // 일정 삭제
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @RequestBody ManagementRequestDto dto){
-//        service.deleteSchedule(id, dto.getPassword());
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+        if(usersService.isEqualTo(userId, dto.getPassword())){
+            scheduleService.deleteSchedule(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

@@ -17,7 +17,9 @@ public interface ScheduleRepository {
     List<ManagementResponseDto> getDateList(LocalDate date);
     List<ManagementResponseDto> getSchedule(Long id);
 
+    List<ScheduleResponseDto> findUserId(Long id);
+
     int updateSchedule(Long id, String title, String contnet, LocalDate date);
 
-//    void deleteSchedule(Long id);
+    int deleteSchedule(Long id);
 }

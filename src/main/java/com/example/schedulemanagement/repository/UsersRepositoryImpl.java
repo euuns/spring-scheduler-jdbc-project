@@ -35,9 +35,9 @@ public class UsersRepositoryImpl implements UsersRepository{
 
 
     @Override
-    public UsersResponsDto getUserPassword(Long id){
+    public Optional<UsersResponsDto> getUserPassword(Long id){
         List<UsersResponsDto> query = jdbcTemplate.query("select * from users where id = ?", rowMapperToPassword(), id);
-        return query.stream().findAny().get();
+        return query.stream().findAny();
     }
 
 

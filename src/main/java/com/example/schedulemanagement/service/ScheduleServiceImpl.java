@@ -68,12 +68,15 @@ public class ScheduleServiceImpl implements ScheduleService{
         return schedule.get(0);
     }
 
-//    @Override
-//    public void deleteSchedule(Long id, String password) {
-//        Schedule schedule = repository.getSchedule(id);
-//
-//        if(schedule.isEqualTo(password)){
-//            repository.deleteSchedule(id);
-//        }
-//    }
+    @Override
+    public void deleteSchedule(Long id) {
+        repository.deleteSchedule(id);
+    }
+
+
+    @Override
+    public Long findUserId(Long id){
+        List<ScheduleResponseDto> userId = repository.findUserId(id);
+        return userId.get(0).getUserId();
+    }
 }

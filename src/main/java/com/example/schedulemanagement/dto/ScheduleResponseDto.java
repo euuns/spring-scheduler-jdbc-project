@@ -35,4 +35,8 @@ public class ScheduleResponseDto {
 
     }
 
+    public ScheduleResponseDto(Long userId){
+        this.userId = userId;
+    }
+
 }

@@ -33,9 +33,12 @@ public class UsersServiceImpl implements UsersService{
 
     @Override
     public boolean isEqualTo(Long id, String password){
-        UsersResponsDto user = usersRepository.getUserPassword(id);
+        Optional<UsersResponsDto> user = usersRepository.getUserPassword(id);
+        if(user.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
 
-        if(user.getPassword().equals(password)){
+        if(user.get().getPassword().equals(password)){
             return true;
         }
         else return false;

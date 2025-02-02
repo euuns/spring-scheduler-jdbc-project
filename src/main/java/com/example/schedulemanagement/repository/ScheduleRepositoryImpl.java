@@ -80,6 +80,13 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     }
 
 
+    @Override
+    public List<ScheduleResponseDto> findUserId(Long id){
+        return template.query("SELECT user_id FROM schedule WHERE id = ?", userIdMapper(), id);
+    }
+
+
+
     // 일정 수정 추가
 
     @Override
@@ -87,23 +94,13 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         return template.update("UPDATE schedule SET title = ?, content = ?, date = ? WHERE id = ?", title, contnet, date, id);
     }
 
-//    @Override
-//    public void deleteSchedule(Long id){
-//        scheduleList.remove(id);
-//    }
-
-
-
-    private RowMapper<Schedule> scheduleMapper(){
-
-        return new RowMapper<Schedule>() {
-            @Override
-            public Schedule mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new Schedule(rs.getLong("id"), rs.getLong("user_id"), rs.getString("title"),
-                        rs.getString("content"), rs.getDate("date").toLocalDate());
-            }
-        };
+    @Override
+    public int deleteSchedule(Long id){
+        return template.update("DELETE FROM schedule WHERE id =?", id);
     }
+
+
+
 
     private RowMapper<ManagementResponseDto> scheduleListMapper(){
 
@@ -112,6 +109,16 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
             public ManagementResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new ManagementResponseDto(rs.getLong("id"), rs.getString("name"), rs.getString("title"),
                         rs.getString("content"), rs.getDate("date").toLocalDate());
+            }
+        };
+    }
+
+    private RowMapper<ScheduleResponseDto> userIdMapper(){
+
+        return new RowMapper<ScheduleResponseDto>() {
+            @Override
+            public ScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new ScheduleResponseDto(rs.getLong("user_id"));
             }
         };
     }
