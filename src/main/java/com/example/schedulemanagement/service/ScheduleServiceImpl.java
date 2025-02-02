@@ -21,23 +21,23 @@ public class ScheduleServiceImpl implements ScheduleService{
 
 
     @Override
-    public ManagementResponseDto addSchedule(ManagementRequestDto requestDto,ManagementResponseDto responseDto) {
+    public ManagementResponseDto addSchedule(ManagementRequestDto requestDto,Long userId) {
 
         // Schedule 필드에 값을 저장 -> id만 null
-        Schedule schedule = new Schedule(responseDto.getUser().getId(), requestDto.getTitle(), requestDto.getContent());
+        Schedule schedule = new Schedule(userId, requestDto.getTitle(), requestDto.getContent());
         schedule.setDate(LocalDate.now());
 
         // Respository에 schedule을 넘겨서 데이터를 DB에 저장
         repository.addSchedule(schedule);
 
-        // 반환된 ResponseDto를 addScheduleToUser를 이용해 응답할 DTO에 정보 저장하고 반환
-        return responseDto.addScheduleToUser(schedule);
+        // schedule을 응답DTO에 넣어 반환
+        return new ManagementResponseDto(schedule);
     }
 
 
 
     @Override
-    public List<ScheduleResponseDto> getScheduleList() {
+    public List<ManagementResponseDto> getScheduleList() {
         return repository.getScheduleList();
     }
 

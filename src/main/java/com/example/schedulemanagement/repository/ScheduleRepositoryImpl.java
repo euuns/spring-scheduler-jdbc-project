@@ -55,25 +55,16 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
 
     @Override
-    public List<ScheduleResponseDto> getScheduleList() {
-        // 내부에서 INNER JOIN을 해도 ScheduleResponseDto로 users의 name은 넘어가지 못함
-        // SQL 쿼리로 INNER JOIN을 한다는 것을 알려주기 위해 JOIN 추가
-        return template.query("SELECT s.id, s.user_id, u.name, s.title, s.content, s.date FROM schedule s JOIN users u ON s.user_id = u.id", scheduleListMapper());
+    public List<ManagementResponseDto> getScheduleList() {
+        // INNER JOIN을 통해 필요한 값이 들어간 결과 테이블을 호출
+        return template.query("SELECT s.id, u.name, s.title, s.content, s.date FROM schedule s JOIN users u ON s.user_id = u.id", scheduleListMapper());
     }
 
 
 
 //    @Override
-//    public List<ManagementResponseDto> getUserNameList(String name) {
-//        List<ScheduleResponseDto> responseList = new ArrayList<>();
-//
-//        for (Schedule schedule:scheduleList.values()) {
-//            if (schedule.getUser().equals(name)){
-//                responseList.add(new ScheduleResponseDto(schedule));
-//            }
-//        }
-//
-//        return responseList;
+//    public List<ManagementResponseDto> getUserNameList(Long userId) {
+//        return template.query("SELECT * FROM schedule WHERE user_id = ?", scheduleListMapper(), userId);
 //    }
 //
 //    @Override
@@ -102,12 +93,12 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
 
 
-    private RowMapper<ScheduleResponseDto> scheduleListMapper(){
+    private RowMapper<ManagementResponseDto> scheduleListMapper(){
 
-        return new RowMapper<ScheduleResponseDto>() {
+        return new RowMapper<ManagementResponseDto>() {
             @Override
-            public ScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new ScheduleResponseDto(rs.getLong("id"), rs.getLong("user_id"), rs.getString("title"),
+            public ManagementResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new ManagementResponseDto(rs.getLong("id"), rs.getString("name"), rs.getString("title"),
                         rs.getString("content"), rs.getDate("date").toLocalDate());
             }
         };

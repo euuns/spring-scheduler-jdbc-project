@@ -36,11 +36,13 @@ public class ScheduleController {
 
         // 입력한 id로 User정보를 가져와 응답DTO로 반환
         UsersResponsDto users = usersService.getUsers(requestDto.getUserId());
-        ManagementResponseDto result = new ManagementResponseDto(users);
 
         // 응답DTO에 나머지 Schedule을 담아서 반환하기 위해 Service를 호출해 로직 수행
-        // 요청DTO와 함께 User의 정보만 저장된 응답DTO를 함께 전달
-        scheduleService.addSchedule(requestDto, result);
+        // 요청DTO와 함께 user의 id 함께 전달
+        ManagementResponseDto result = scheduleService.addSchedule(requestDto, users.getId());
+
+        // 남은 값 user이름도 저장
+        result.setName(users.getName());
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -49,30 +51,18 @@ public class ScheduleController {
     // 일정 목록 출력
     @GetMapping()
     public ResponseEntity<List<ManagementResponseDto>> getScheduleList() {
-        // 저장된 일정을 List로 가져온다.
-        List<ScheduleResponseDto> scheduleList = scheduleService.getScheduleList();
-
-        // 일정List의 userId에 맞춰서 users 테이블에서 id에 맞는 유저 정보를 가져온다.
-        List<ManagementResponseDto> result = scheduleList.stream().map(s -> {
-            UsersResponsDto u = usersService.getUsers(s.getUserId());
-
-            // 최종 응답을 위해 Schedule응답과 Users응답을 통합DTO에 넣어서 반환한다.
-            return new ManagementResponseDto(s, u);
-
-            // 반환된 통합DTO를 List로 지정
-        }).toList();
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.getScheduleList(), HttpStatus.OK);
     }
 
 
 //    // 작성자 이름으로 리스트 출력
 //    @GetMapping("/user/{user}")
 //    public ResponseEntity<List<ManagementResponseDto>> getUserNameList(@PathVariable String user) {
-//        return new ResponseEntity<>(service.getUserNameList(user), HttpStatus.OK);
+//        scheduleService.getUserNameList(user);
+//        return new ResponseEntity<>(, HttpStatus.OK);
 //    }
 //
-//
+
 //
 //    // 특정 날짜 조회
 //    @GetMapping("/date/{date}")

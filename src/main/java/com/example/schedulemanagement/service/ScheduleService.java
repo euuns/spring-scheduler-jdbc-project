@@ -8,9 +8,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ScheduleService {
-    ManagementResponseDto addSchedule(ManagementRequestDto requestDto, ManagementResponseDto responseDto);
+    ManagementResponseDto addSchedule(ManagementRequestDto requestDto, Long userId);
 
-    List<ScheduleResponseDto> getScheduleList();
+    List<ManagementResponseDto> getScheduleList();
 
 //    List<ManagementResponseDto> getUserNameList(String name);
 //    List<ManagementResponseDto> getDate(LocalDate date);

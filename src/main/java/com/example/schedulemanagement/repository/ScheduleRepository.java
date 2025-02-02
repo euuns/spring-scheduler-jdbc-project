@@ -10,7 +10,7 @@ import java.util.List;
 public interface ScheduleRepository {
 
     ScheduleResponseDto addSchedule(Schedule schdule);
-    List<ScheduleResponseDto> getScheduleList();
+    List<ManagementResponseDto> getScheduleList();
 //    List<ManagementResponseDto> getUserNameList(String name);
 //    List<ManagementResponseDto> getDate(LocalDate date);
 //    Schedule getSchedule(Long id);

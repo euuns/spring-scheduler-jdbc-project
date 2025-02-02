@@ -3,6 +3,7 @@ package com.example.schedulemanagement.dto;
 import com.example.schedulemanagement.entity.Schedule;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
@@ -10,25 +11,25 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ManagementResponseDto {
     private Long id;
+    @Setter
+    private String name;
     private String title;
     private String content;
     private LocalDate date;
 
-    private UsersResponsDto user;
 
 
-
-    public ManagementResponseDto(ScheduleResponseDto schedule, UsersResponsDto user){
+    public ManagementResponseDto(ScheduleResponseDto schedule, String name){
         this.id = schedule.getId();
         this.title = schedule.getTitle();
         this.content = schedule.getContent();
         this.date = schedule.getDate();
-        this.user = user;
+        this.name = name;
     }
 
 
-    public ManagementResponseDto(UsersResponsDto user){
-        this.user = user;
+    public ManagementResponseDto(String name){
+        this.name = name;
     }
 
 
@@ -39,16 +40,11 @@ public class ManagementResponseDto {
         this.date = schedule.getDate();
     }
 
-
-
-    // 생성한 메모와 작성자 정보를 반환하기 위한 메서드
-    // userId, name, password만 저장된 응답DTO에 나머지 값을 저장해주는 역할
-    public ManagementResponseDto addScheduleToUser(Schedule schedule){
-        this.id = schedule.getId();
-        this.title = schedule.getTitle();
-        this.content = schedule.getContent();
-        this.date = schedule.getDate();
-
-        return this;
+    public ManagementResponseDto(long id, String name, String title, String content, LocalDate date) {
+        this.id = id;
+        this.name = name;
+        this.title = title;
+        this.content = content;
+        this.date = date;
     }
 }
