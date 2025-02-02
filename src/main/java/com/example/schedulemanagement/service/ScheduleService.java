@@ -11,13 +11,10 @@ public interface ScheduleService {
     ManagementResponseDto addSchedule(ManagementRequestDto requestDto, Long userId);
 
     List<ManagementResponseDto> getScheduleList();
-
     List<ManagementResponseDto> getUserNameList(String name);
-
     List<ManagementResponseDto> getDateList(LocalDate date);
+    ManagementResponseDto getSchedule(Long id);
 
-//    ManagementResponseDto getSchedule(Long id);
-//
-//    ManagementResponseDto updateSchedule(Long id, ManagementRequestDto dto);
+    ManagementResponseDto updateSchedule(Long id, ManagementRequestDto dto);
 //    void deleteSchedule(Long id, String password);
 }

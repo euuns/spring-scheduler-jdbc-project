@@ -72,19 +72,38 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     public List<ManagementResponseDto> getDateList(LocalDate date) {
         return template.query("SELECT s.id, u.name, s.title, s.content, s.date FROM schedule s JOIN users u ON s.user_id = u.id WHERE s.date = ?", scheduleListMapper(), date);
     }
-//
-//
-//    @Override
-//    public Schedule getSchedule(Long id) {
-//        return scheduleList.get(id);
-//    }
-//
+
+
+    @Override
+    public List<ManagementResponseDto> getSchedule(Long id) {
+        return template.query("SELECT s.id, u.name, s.title, s.content, s.date FROM schedule s JOIN users u ON s.user_id = u.id WHERE s.id = ?", scheduleListMapper(), id);
+    }
+
+
+    // 일정 수정 추가
+
+    @Override
+    public int updateSchedule(Long id, String title, String contnet, LocalDate date){
+        return template.update("UPDATE schedule SET title = ?, content = ?, date = ? WHERE id = ?", title, contnet, date, id);
+    }
+
 //    @Override
 //    public void deleteSchedule(Long id){
 //        scheduleList.remove(id);
 //    }
 
 
+
+    private RowMapper<Schedule> scheduleMapper(){
+
+        return new RowMapper<Schedule>() {
+            @Override
+            public Schedule mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new Schedule(rs.getLong("id"), rs.getLong("user_id"), rs.getString("title"),
+                        rs.getString("content"), rs.getDate("date").toLocalDate());
+            }
+        };
+    }
 
     private RowMapper<ManagementResponseDto> scheduleListMapper(){
 

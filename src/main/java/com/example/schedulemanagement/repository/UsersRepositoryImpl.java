@@ -34,6 +34,13 @@ public class UsersRepositoryImpl implements UsersRepository{
     }
 
 
+    @Override
+    public UsersResponsDto getUserPassword(Long id){
+        List<UsersResponsDto> query = jdbcTemplate.query("select * from users where id = ?", rowMapperToPassword(), id);
+        return query.stream().findAny().get();
+    }
+
+
 
 
     private RowMapper<UsersResponsDto> rowMapper() {
@@ -43,6 +50,16 @@ public class UsersRepositoryImpl implements UsersRepository{
                 // DB에서 쿼리문을 통해 결과집합 ResultSet 반환
                 // ResultSet을 통해 가져온 DB의 값을 Users에 담아서 List로 반환
                 return new UsersResponsDto(rs.getLong("id"), rs.getString("name"));
+            }
+        };
+    }
+
+
+    private RowMapper<UsersResponsDto> rowMapperToPassword() {
+        return new RowMapper<UsersResponsDto>() {
+            @Override
+            public UsersResponsDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new UsersResponsDto(rs.getString("password"));
             }
         };
     }

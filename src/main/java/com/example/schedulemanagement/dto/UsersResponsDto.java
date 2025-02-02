@@ -7,6 +7,7 @@ import lombok.Getter;
 public class UsersResponsDto {
     private Long id;
     private String name;
+    private String password;
 
     public UsersResponsDto(Users users){
         this.id = users.getId();
@@ -16,5 +17,9 @@ public class UsersResponsDto {
     public UsersResponsDto(Long id, String name){
         this.id = id;
         this.name = name;
+    }
+
+    public UsersResponsDto(String password){
+        this.password = password;
     }
 }

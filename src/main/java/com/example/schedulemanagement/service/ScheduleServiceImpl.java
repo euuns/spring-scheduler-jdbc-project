@@ -5,7 +5,9 @@ import com.example.schedulemanagement.dto.ManagementResponseDto;
 import com.example.schedulemanagement.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.entity.Schedule;
 import com.example.schedulemanagement.repository.ScheduleRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -35,40 +37,37 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
 
 
-
+    // 전체 일정 조회
     @Override
     public List<ManagementResponseDto> getScheduleList() {
         return repository.getScheduleList();
     }
-
+    // 입력받은 이름을 기준으로 조회
     @Override
     public List<ManagementResponseDto> getUserNameList(String name) {
         return repository.getUserNameList(name);
     }
-
+    // 입력한 날짜를 기준으로 조회
     @Override
     public List<ManagementResponseDto> getDateList(LocalDate date) {
         return repository.getDateList(date);
     }
+    // 선택한 일정 단건 조회
+    @Override
+    public ManagementResponseDto getSchedule(Long id) {
+        List<ManagementResponseDto> schedule = repository.getSchedule(id);
+        return schedule.get(0);  //get(0) 추후 수정 예정
+    }
 
-//    @Override
-//    public ManagementResponseDto getSchedule(Long id) {
-//        Schedule schedule = repository.getSchedule(id);
-//        return new ManagementResponseDto(schedule);
-//    }
-//
-//    @Override
-//    public ManagementResponseDto updateSchedule(Long id, ManagementRequestDto dto) {
-//        Schedule schedule = repository.getSchedule(id);
-//
-//        // 암호가 동일하면 내용 변경
-//        if(schedule.isEqualTo(dto.getPassword())){
-//            schedule.update(dto);
-//        }
-//
-//        return new ManagementResponseDto(schedule);
-//    }
-//
+    @Override
+    public ManagementResponseDto updateSchedule(Long id, ManagementRequestDto dto) {
+        List<ManagementResponseDto> schedule = repository.getSchedule(id);
+        LocalDate updateDate = LocalDate.now();
+        repository.updateSchedule(id, dto.getTitle(), dto.getContent(), updateDate);
+
+        return schedule.get(0);
+    }
+
 //    @Override
 //    public void deleteSchedule(Long id, String password) {
 //        Schedule schedule = repository.getSchedule(id);

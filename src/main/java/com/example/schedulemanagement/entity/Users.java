@@ -30,11 +30,4 @@ public class Users {
         this.id = id;
         this.name = name;
     }
-
-    public boolean isEqualTo(String password){
-        if(this.password.equals(password)){
-            return true;
-        }
-        else return false;
-    }
 }

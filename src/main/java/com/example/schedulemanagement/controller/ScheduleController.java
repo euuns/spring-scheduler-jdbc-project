@@ -71,21 +71,26 @@ public class ScheduleController {
     }
 
 
-//    // 선택한 일정 출력
-//    @GetMapping("/{id}")
-//    public ResponseEntity<ManagementResponseDto> getSchedule(@PathVariable Long id) {
-//        return new ResponseEntity<>(service.getSchedule(id), HttpStatus.OK);
-//    }
-//
-//
-//    // 일정 수정
-//    @PutMapping("/{id}")
-//    public ResponseEntity<ManagementResponseDto> updateSchedule(@PathVariable Long id, @RequestBody ManagementRequestDto dto){
-//        return new ResponseEntity<>(service.updateSchedule(id,dto), HttpStatus.OK);
-//    }
-//
-//
-//
+    // 선택한 일정 출력
+    @GetMapping("/{id}")
+    public ResponseEntity<ManagementResponseDto> getSchedule(@PathVariable Long id) {
+        return new ResponseEntity<>(scheduleService.getSchedule(id), HttpStatus.OK);
+    }
+
+
+    // 일정 수정
+    @PutMapping("/{id}")
+    public ResponseEntity<ManagementResponseDto> updateSchedule(@PathVariable Long id, @RequestBody ManagementRequestDto dto){
+        if(usersService.isEqualTo(id, dto.getPassword())){
+            return new ResponseEntity<>(scheduleService.updateSchedule(id, dto), HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+
 //    // 일정 삭제
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @RequestBody ManagementRequestDto dto){
