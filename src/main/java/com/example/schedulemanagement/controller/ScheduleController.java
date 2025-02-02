@@ -2,6 +2,7 @@ package com.example.schedulemanagement.controller;
 
 import com.example.schedulemanagement.dto.ManagementRequestDto;
 import com.example.schedulemanagement.dto.ManagementResponseDto;
+import com.example.schedulemanagement.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.dto.UsersResponsDto;
 import com.example.schedulemanagement.service.ScheduleService;
 import com.example.schedulemanagement.service.UsersService;
@@ -9,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @RestController
@@ -47,10 +47,17 @@ public class ScheduleController {
 
 
     // 일정 목록 출력
-//    @GetMapping()
-//    public ResponseEntity<List<ManagementResponseDto>> getScheduleList() {
-//        return new ResponseEntity<>(scheduleService.getScheduleList(), HttpStatus.OK);
-//    }
+    @GetMapping()
+    public ResponseEntity<List<ManagementResponseDto>> getScheduleList() {
+        List<ScheduleResponseDto> scheduleList = scheduleService.getScheduleList();
+
+        List<ManagementResponseDto> result = scheduleList.stream().map(s -> {
+            UsersResponsDto u = usersService.getUsers(s.getUserId());
+            return new ManagementResponseDto(s, u);
+        }).toList();
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
 
 //    // 작성자 이름으로 리스트 출력

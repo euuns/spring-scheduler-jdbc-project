@@ -1,7 +1,6 @@
 package com.example.schedulemanagement.dto;
 
 import com.example.schedulemanagement.entity.Schedule;
-import com.example.schedulemanagement.entity.Users;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +18,7 @@ public class ManagementResponseDto {
 
 
 
-    public ManagementResponseDto(Schedule schedule, UsersResponsDto user){
+    public ManagementResponseDto(ScheduleResponseDto schedule, UsersResponsDto user){
         this.id = schedule.getId();
         this.title = schedule.getTitle();
         this.content = schedule.getContent();

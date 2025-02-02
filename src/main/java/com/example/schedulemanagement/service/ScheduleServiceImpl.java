@@ -2,6 +2,7 @@ package com.example.schedulemanagement.service;
 
 import com.example.schedulemanagement.dto.ManagementRequestDto;
 import com.example.schedulemanagement.dto.ManagementResponseDto;
+import com.example.schedulemanagement.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.entity.Schedule;
 import com.example.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
@@ -35,11 +36,11 @@ public class ScheduleServiceImpl implements ScheduleService{
 
 
 
-//    @Override
-//    public List<ManagementResponseDto> getScheduleList() {
-//        return repository.getScheduleList();
-//    }
-//
+    @Override
+    public List<ScheduleResponseDto> getScheduleList() {
+        return repository.getScheduleList();
+    }
+
 //    @Override
 //    public List<ManagementResponseDto> getUserNameList(String name) {
 //        return repository.getUserNameList(name);

@@ -1,13 +1,17 @@
 package com.example.schedulemanagement.repository;
 
 import com.example.schedulemanagement.dto.ManagementResponseDto;
+import com.example.schedulemanagement.dto.ScheduleResponseDto;
 import com.example.schedulemanagement.entity.Schedule;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 @Repository
@@ -24,7 +28,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
     // DB에 입력받은 데이터를 삽입하는 Repository의 addSchedule 메서드 구현
     @Override
-    public ManagementResponseDto addSchedule(Schedule schdule) {
+    public ScheduleResponseDto addSchedule(Schedule schdule) {
 
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(template);
         // table이름으로 접근하고 key로 사용할 컬럼명 지정 -> "id"
@@ -46,16 +50,16 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         schdule.setId(key.longValue());
 
         // id까지 모두 지정된 schedule 객체 반환
-        return new ManagementResponseDto(schdule);
+        return new ScheduleResponseDto(schdule);
     }
 
 
-//    @Override
-//    public List<ManagementResponseDto> getScheduleList() {
-//        String queryString = "SELECT s.id, u.name, s.title, s.content, s.date FROM Schedule s" +
-//                "JOIN users u ON s.userId = u.id";
-//        return template.query("queryString", scheduleListMapper());
-//    }
+    @Override
+    public List<ScheduleResponseDto> getScheduleList() {
+        // 내부에서 INNER JOIN을 해도 ScheduleResponseDto로 users의 name은 넘어가지 못함
+        // SQL 쿼리로 INNER JOIN을 한다는 것을 알려주기 위해 JOIN 추가
+        return template.query("SELECT s.id, s.user_id, u.name, s.title, s.content, s.date FROM schedule s JOIN users u ON s.user_id = u.id", scheduleListMapper());
+    }
 
 
 
@@ -98,14 +102,14 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
 
 
-//    private RowMapper<ManagementResponseDto> scheduleListMapper(){
-//
-//        return new RowMapper<ManagementResponseDto>() {
-//            @Override
-//            public ManagementResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-//                return new ManagementResponseDto(rs.getLong("id"), rs.getLong("name"), rs.getString("title"),
-//                        rs.getString("contents"), rs.getDate("date").toLocalDate());
-//            }
-//        };
-//    }
+    private RowMapper<ScheduleResponseDto> scheduleListMapper(){
+
+        return new RowMapper<ScheduleResponseDto>() {
+            @Override
+            public ScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new ScheduleResponseDto(rs.getLong("id"), rs.getLong("user_id"), rs.getString("title"),
+                        rs.getString("content"), rs.getDate("date").toLocalDate());
+            }
+        };
+    }
 }
