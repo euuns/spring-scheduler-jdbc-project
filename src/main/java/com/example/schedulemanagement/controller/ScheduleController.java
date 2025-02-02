@@ -2,6 +2,7 @@ package com.example.schedulemanagement.controller;
 
 import com.example.schedulemanagement.dto.ManagementRequestDto;
 import com.example.schedulemanagement.dto.ManagementResponseDto;
+import com.example.schedulemanagement.dto.UsersResponsDto;
 import com.example.schedulemanagement.service.ScheduleService;
 import com.example.schedulemanagement.service.UsersService;
 import org.springframework.http.HttpStatus;
@@ -34,24 +35,24 @@ public class ScheduleController {
     public ResponseEntity<ManagementResponseDto> addSchedule(@RequestBody ManagementRequestDto requestDto){
 
         // 입력한 id로 User정보를 가져와 응답DTO로 반환
-        // 아직까지 응답DTO에는 userId, name, password만 저장
-        ManagementResponseDto responseDto = usersService.getUsers(requestDto.getUserId());
+        UsersResponsDto users = usersService.getUsers(requestDto.getUserId());
+        ManagementResponseDto result = new ManagementResponseDto(users);
 
         // 응답DTO에 나머지 Schedule을 담아서 반환하기 위해 Service를 호출해 로직 수행
         // 요청DTO와 함께 User의 정보만 저장된 응답DTO를 함께 전달
-        ManagementResponseDto result = scheduleService.addSchedule(requestDto, responseDto);
+        scheduleService.addSchedule(requestDto, result);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 
-//    // 일정 목록 출력
+    // 일정 목록 출력
 //    @GetMapping()
 //    public ResponseEntity<List<ManagementResponseDto>> getScheduleList() {
-//        return new ResponseEntity<>(service.getScheduleList(), HttpStatus.OK);
+//        return new ResponseEntity<>(scheduleService.getScheduleList(), HttpStatus.OK);
 //    }
-//
-//
+
+
 //    // 작성자 이름으로 리스트 출력
 //    @GetMapping("/user/{user}")
 //    public ResponseEntity<List<ManagementResponseDto>> getUserNameList(@PathVariable String user) {

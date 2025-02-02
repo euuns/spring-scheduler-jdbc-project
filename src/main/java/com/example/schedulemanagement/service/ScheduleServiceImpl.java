@@ -23,7 +23,7 @@ public class ScheduleServiceImpl implements ScheduleService{
     public ManagementResponseDto addSchedule(ManagementRequestDto requestDto,ManagementResponseDto responseDto) {
 
         // Schedule 필드에 값을 저장 -> id만 null
-        Schedule schedule = new Schedule(responseDto.getUserId(), requestDto.getTitle(), requestDto.getContent());
+        Schedule schedule = new Schedule(responseDto.getUser().getId(), requestDto.getTitle(), requestDto.getContent());
         schedule.setDate(LocalDate.now());
 
         // Respository에 schedule을 넘겨서 데이터를 DB에 저장

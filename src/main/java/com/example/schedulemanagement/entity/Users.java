@@ -26,6 +26,11 @@ public class Users {
         this.password = password;
     }
 
+    public Users(Long id, String name){
+        this.id = id;
+        this.name = name;
+    }
+
     public boolean isEqualTo(String password){
         if(this.password.equals(password)){
             return true;

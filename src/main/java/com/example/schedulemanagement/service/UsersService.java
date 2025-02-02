@@ -1,9 +1,9 @@
 package com.example.schedulemanagement.service;
 
-import com.example.schedulemanagement.dto.ManagementResponseDto;
+import com.example.schedulemanagement.dto.UsersResponsDto;
 
 public interface UsersService {
 
-    ManagementResponseDto getUsers(Long id);
+    UsersResponsDto getUsers(Long id);
 
 }

@@ -1,7 +1,6 @@
 package com.example.schedulemanagement.service;
 
-import com.example.schedulemanagement.dto.ManagementResponseDto;
-import com.example.schedulemanagement.entity.Users;
+import com.example.schedulemanagement.dto.UsersResponsDto;
 import com.example.schedulemanagement.repository.UsersRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,8 +21,8 @@ public class UsersServiceImpl implements UsersService{
 
 
     @Override
-    public ManagementResponseDto getUsers(Long id) {
-        Optional<ManagementResponseDto> users = usersRepository.getUsers(id);
+    public UsersResponsDto getUsers(Long id) {
+        Optional<UsersResponsDto> users = usersRepository.getUsers(id);
 
         // users가 비어있으면 예외 처리
         if(users.isEmpty()){

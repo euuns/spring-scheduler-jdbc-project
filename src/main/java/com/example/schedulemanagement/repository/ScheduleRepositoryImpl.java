@@ -52,17 +52,13 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
 //    @Override
 //    public List<ManagementResponseDto> getScheduleList() {
-//        List<ScheduleResponseDto> responseList = new ArrayList<>();
-//
-//        for (Schedule schedule : scheduleList.values()) {
-//            responseList.add(new ScheduleResponseDto(schedule));
-//        }
-//
-//        return responseList;
+//        String queryString = "SELECT s.id, u.name, s.title, s.content, s.date FROM Schedule s" +
+//                "JOIN users u ON s.userId = u.id";
+//        return template.query("queryString", scheduleListMapper());
 //    }
-//
-//
-//
+
+
+
 //    @Override
 //    public List<ManagementResponseDto> getUserNameList(String name) {
 //        List<ScheduleResponseDto> responseList = new ArrayList<>();
@@ -98,5 +94,18 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 //    @Override
 //    public void deleteSchedule(Long id){
 //        scheduleList.remove(id);
+//    }
+
+
+
+//    private RowMapper<ManagementResponseDto> scheduleListMapper(){
+//
+//        return new RowMapper<ManagementResponseDto>() {
+//            @Override
+//            public ManagementResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+//                return new ManagementResponseDto(rs.getLong("id"), rs.getLong("name"), rs.getString("title"),
+//                        rs.getString("contents"), rs.getDate("date").toLocalDate());
+//            }
+//        };
 //    }
 }

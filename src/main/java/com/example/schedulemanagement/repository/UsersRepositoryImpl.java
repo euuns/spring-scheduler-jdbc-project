@@ -1,7 +1,6 @@
 package com.example.schedulemanagement.repository;
 
-import com.example.schedulemanagement.dto.ManagementResponseDto;
-import com.example.schedulemanagement.entity.Users;
+import com.example.schedulemanagement.dto.UsersResponsDto;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -25,9 +24,9 @@ public class UsersRepositoryImpl implements UsersRepository{
 
     // id에 맞는 유저 정보를 반환
     @Override
-    public Optional<ManagementResponseDto> getUsers(Long id){
+    public Optional<UsersResponsDto> getUsers(Long id){
         // id에 맞는 값을 가져오는 쿼리 실행 -> where id = ?
-        List<ManagementResponseDto> query = jdbcTemplate.query("select * from users where id = ?", rowMapper(), id);
+        List<UsersResponsDto> query = jdbcTemplate.query("select * from users where id = ?", rowMapper(), id);
 
         // 반환된 List는 값이 없으면 빈 배열로 반환
         // null을 안전하게 다루기 위한 Optional형태 반환
@@ -37,14 +36,13 @@ public class UsersRepositoryImpl implements UsersRepository{
 
 
 
-    private RowMapper<ManagementResponseDto> rowMapper() {
-        return new RowMapper<ManagementResponseDto>() {
+    private RowMapper<UsersResponsDto> rowMapper() {
+        return new RowMapper<UsersResponsDto>() {
             @Override
-            public ManagementResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+            public UsersResponsDto mapRow(ResultSet rs, int rowNum) throws SQLException {
                 // DB에서 쿼리문을 통해 결과집합 ResultSet 반환
                 // ResultSet을 통해 가져온 DB의 값을 Users에 담아서 List로 반환
-                return new ManagementResponseDto(rs.getLong("id"), rs.getString("name"),
-                        rs.getString("password"));
+                return new UsersResponsDto(rs.getLong("id"), rs.getString("name"));
             }
         };
     }

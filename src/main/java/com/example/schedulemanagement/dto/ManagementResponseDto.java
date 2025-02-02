@@ -11,49 +11,33 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ManagementResponseDto {
     private Long id;
-    private Long userId;
-
     private String title;
     private String content;
     private LocalDate date;
 
-    private String name;
-    private String password;
+    private UsersResponsDto user;
 
 
-    public ManagementResponseDto(Users users, Schedule schedule){
+
+    public ManagementResponseDto(Schedule schedule, UsersResponsDto user){
         this.id = schedule.getId();
-        this.userId = users.getId();
-
         this.title = schedule.getTitle();
         this.content = schedule.getContent();
         this.date = schedule.getDate();
+        this.user = user;
+    }
 
-        this.name = users.getName();
-        this.password = users.getPassword();
+
+    public ManagementResponseDto(UsersResponsDto user){
+        this.user = user;
     }
 
 
     public ManagementResponseDto(Schedule schedule){
         this.id = schedule.getId();
-        this.userId = schedule.getUserId();
         this.title = schedule.getTitle();
         this.content = schedule.getContent();
         this.date = schedule.getDate();
-    }
-
-
-    public ManagementResponseDto(Users users){
-        this.userId = users.getId();
-        this.name = users.getName();
-        this.password = users.getPassword();
-    }
-
-
-    public ManagementResponseDto(Long id, String name, String password){
-        this.userId = id;
-        this.name = name;
-        this.password = password;
     }
 
 
