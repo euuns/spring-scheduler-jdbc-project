@@ -60,7 +60,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     @Override
     public List<ManagementResponseDto> getScheduleList() {
         // INNER JOIN을 통해 필요한 값이 들어간 결과 테이블을 호출
-        return template.query("SELECT s.id, u.name, s.title, s.content, s.date FROM schedule s JOIN users u ON s.user_id = u.id", scheduleListMapper());
+        return template.query("SELECT s.id, u.name, s.title, s.content, s.date FROM schedule s JOIN users u ON s.user_id = u.id ORDER BY s.date DESC", scheduleListMapper());
     }
 
 

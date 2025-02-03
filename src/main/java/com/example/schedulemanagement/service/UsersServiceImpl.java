@@ -39,7 +39,7 @@ public class UsersServiceImpl implements UsersService{
         if(user.getPassword().equals(password)){
             return true;
         }
-        else throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Password does not match.");
+        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Password does not match.");
     }
 
 
