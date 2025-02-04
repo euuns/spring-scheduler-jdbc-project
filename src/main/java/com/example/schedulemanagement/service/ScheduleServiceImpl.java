@@ -31,6 +31,10 @@ public class ScheduleServiceImpl implements ScheduleService{
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
+        // 글자수 확인
+        characterLimit(requestDto.getContent());
+
+
         // Schedule 필드에 값을 저장 -> id만 null
         Schedule schedule = new Schedule(userId, requestDto.getTitle(), requestDto.getContent());
         schedule.setDate(LocalDate.now());
@@ -74,6 +78,8 @@ public class ScheduleServiceImpl implements ScheduleService{
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
+        characterLimit(dto.getContent());
+
         LocalDate updateDate = LocalDate.now();
         repository.updateSchedule(id, dto.getTitle(), dto.getContent(), updateDate);
 
@@ -95,6 +101,15 @@ public class ScheduleServiceImpl implements ScheduleService{
     public Long findUserId(Long id){
         ScheduleResponseDto userId = repository.findUserId(id);
         return userId.getUserId();
+    }
+
+
+    // 글자수 제한 메서드
+    private boolean characterLimit(String content){
+        // 200자가 넘으면 예외 반환
+        if(content.length() > 200){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It cannot exceed 200 characters.");
+        } return true;
     }
 
 }
